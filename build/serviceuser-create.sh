@@ -19,7 +19,7 @@ function main() {
     local user_guid="${4:-}"
 
     if [[ -z "${user_name}" || -z "${user_home}" || -z "${user_id}" || -z "${user_guid}" ]]; then
-        printf "error: %s\n" "missing argument (user_name=${user_name}, user_home=${user_home}, user_id${user_id}, user_guid=${user_guid}), see \"--help\" for required positional arguments"
+        printf "error: %s\n" "missing argument (user_name=${user_name}, user_home=${user_home}, user_id=${user_id}, user_guid=${user_guid}), see \"--help\" for required positional arguments"
         return 1
     fi
 
