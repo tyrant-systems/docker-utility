@@ -26,7 +26,7 @@ function main() {
 
     # configure permissions on the directory used by the service user
 
-    mkdir -p /var/run/service-proxy
+    mkdir -p /var/run/${user_name}
 
     chown -R root:"${user_name}" /var/run/${user_name}
     chmod -R u=rwX,g=rwX,o=--- /var/run/${user_name}
