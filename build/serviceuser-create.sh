@@ -23,7 +23,7 @@ function main() {
         return 1
     fi
 
-    addgroup ${user_name} --gid ${suguid} &&
+    addgroup ${user_name} --gid ${user_guid} &&
         adduser ${user_name} -D --uid ${user_id} --gid ${user_guid} --home ${suhome}
 
     chown -R ${suhome}:${suhome}
