@@ -14,7 +14,7 @@ function main() {
         case ${1} in
         -h | --help)
             printf "%s [OPTIONS]\n" "${BASH_SOURCE[1]}"
-            printf "\t%s\n" "-N [--name]          USER_NAME"
+            printf "\t%s\n" "-N [--name] USER_NAME"
 
             return 1
             ;;
