@@ -65,14 +65,9 @@ function main() {
 
     set -u
 
-    # if [[ -z "${user_name}" || -z "${user_home}" || -z "${user_id}" || -z "${user_guid}" ]]; then
-    #     printf "error: %s\n" "missing argument (user_name=${user_name}, user_home=${user_home}, user_id=${user_id}, user_guid=${user_guid}), see \"--help\" for required positional arguments"
-    #     return 1
-    # fi
-
     case ${container_os} in
     ALPINE)
-        addgroup ${user_name} -G ${user_guid} &&
+        addgroup ${user_name} -g ${user_guid} &&
             adduser ${user_name} -D -u ${user_id} -G ${user_name} -h ${user_home}
         ;;
     UBUNTU | RHEL)
