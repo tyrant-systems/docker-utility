@@ -18,8 +18,8 @@ function main() {
 
     while (("$#")); do
         case ${1} in
-        -h | --help)
-            printf "%s ARGS... [OPTS...] \n" "${BASH_SOURCE[1]}"
+        --help)
+            printf "%s [OPTIONS]\n" "${BASH_SOURCE[1]}"
             printf "\t%s\n" "-N [--name]          USER_NAME"
             printf "\t%s\n" "-H [--home]          HOME_DIR"
             printf "\t%s\n" "-U [--uid ]          USER_ID"
@@ -28,23 +28,23 @@ function main() {
 
             return 1
             ;;
-        -N | --name)
+        --name)
             user_name=${2}
             shift
             ;;
-        -H | --home)
+        --home)
             user_home=${2}
             shift
             ;;
-        -U | --uid)
+        --uid)
             user_id=${2}
             shift
             ;;
-        -G | --guid)
+        --guid)
             user_guid=${2}
             shift
             ;;
-        -O | --os)
+        --os)
             container_os=${2}
             shift
             ;;
@@ -64,10 +64,10 @@ function main() {
 
     set -u
 
-    if [[ -z "${user_name}" || -z "${user_home}" || -z "${user_id}" || -z "${user_guid}" ]]; then
-        printf "error: %s\n" "missing argument (user_name=${user_name}, user_home=${user_home}, user_id=${user_id}, user_guid=${user_guid}), see \"--help\" for required positional arguments"
-        return 1
-    fi
+    # if [[ -z "${user_name}" || -z "${user_home}" || -z "${user_id}" || -z "${user_guid}" ]]; then
+    #     printf "error: %s\n" "missing argument (user_name=${user_name}, user_home=${user_home}, user_id=${user_id}, user_guid=${user_guid}), see \"--help\" for required positional arguments"
+    #     return 1
+    # fi
 
     case ${container_os} in
     ALPINE)
