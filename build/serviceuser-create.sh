@@ -56,6 +56,12 @@ function main() {
         shift
     done
 
+    printf "[container_os] %s\n" "${container_os}"
+    printf "[user_name] %s\n" "${user_name}"
+    printf "[user_home] %s\n" "${user_home}"
+    printf "[user_id] %s\n" "${user_id}"
+    printf "[user_guid] %s\n" "${user_guid}"
+
     set -u
 
     if [[ -z "${user_name}" || -z "${user_home}" || -z "${user_id}" || -z "${user_guid}" ]]; then
