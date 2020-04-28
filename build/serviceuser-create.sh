@@ -17,6 +17,7 @@ function main() {
     container_os="UBUNTU"
 
     while (("$#")); do
+        printf "FLAG VARS: %s\n" "${1}=${2}"
         case ${1} in
         --help)
             printf "%s [OPTIONS]\n" "${BASH_SOURCE[1]}"
