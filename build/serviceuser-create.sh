@@ -5,28 +5,80 @@
 # other running containers on the same network.
 #
 
-set -eu
+set -e
 
 function main() {
-    if [[ -z "${1}" || "${1}" == "-h" || "${1}" == "--help" ]]; then
-        printf "%s target_user_name target_user_home target_user_id target_group_id\n" "${BASH_SOURCE[1]}"
-        return 1
-    fi
+    local user_name
+    local user_home
+    local user_id
+    local user_guid
+    local container_os
 
-    local user_name="${1:-}"
-    local user_home="${2:-}"
-    local user_id="${3:-}"
-    local user_guid="${4:-}"
+    container_os="UBUNTU"
+
+    while (("$#")); do
+        case ${1} in
+        -h | --help)
+            printf "%s ARGS... [OPTS...] \n" "${BASH_SOURCE[1]}"
+            printf "\t%s\n" "-N [--name]          USER_NAME"
+            printf "\t%s\n" "-H [--home]          HOME_DIR"
+            printf "\t%s\n" "-U [--uid ]          USER_ID"
+            printf "\t%s\n" "-G [--guid]          GROUP_ID"
+            printf "\t(optional) %s\n" "-O [--os] ALPINE|UBUNTU|RHEL [default: UBUNTU]"
+
+            return 1
+            ;;
+        -N | --name)
+            user_name=${2}
+            shift
+            ;;
+        -H | --home)
+            user_home=${2}
+            shift
+            ;;
+        -U | --uid)
+            user_id=${2}
+            shift
+            ;;
+        -G | --guid)
+            user_guid=${2}
+            shift
+            ;;
+        -O | --os)
+            container_os=${2}
+            shift
+            ;;
+        *)
+            echo "invalid argument, '${1}'"
+            return 1
+            ;;
+        esac
+        shift
+    done
+
+    set -u
 
     if [[ -z "${user_name}" || -z "${user_home}" || -z "${user_id}" || -z "${user_guid}" ]]; then
         printf "error: %s\n" "missing argument (user_name=${user_name}, user_home=${user_home}, user_id=${user_id}, user_guid=${user_guid}), see \"--help\" for required positional arguments"
         return 1
     fi
 
-    addgroup ${user_name} --gid ${user_guid} &&
-        adduser ${user_name} -D --uid ${user_id} --gid ${user_guid} --home ${suhome}
+    case ${container_os} in
+    ALPINE)
+        addgroup ${user_name} -G ${user_guid} &&
+            adduser ${user_name} -D -u ${user_id} -G ${user_name} -h ${user_home}
+        ;;
+    UBUNTU | RHEL)
+        addgroup ${user_name} --gid ${user_guid} &&
+            adduser ${user_name} -D --uid ${user_id} --gid ${user_guid} --home ${user_home}
+        ;;
+    *)
+        printf "%s\n" "error: unsupported platform ${container_os}"
+        return 1
+        ;;
+    esac
 
-    chown -R ${suhome}:${suhome}
+    chown -R ${user_name}:${user_name} ${user_home}
 
     return 0
 }

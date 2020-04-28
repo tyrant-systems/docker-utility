@@ -4,14 +4,32 @@
 # configure permissions on the shared mount directory used by the service user.
 #
 
-set -eu
+set -e
 
 function main() {
-    if [[ -z "${1}" || "${1}" == "-h" || "${1}" == "--help" ]]; then
-        printf "%s target_user_name\n" "${BASH_SOURCE[1]}"
-    fi
+    local user_name
 
-    local user_name="${1:-}"
+    while (("$#")); do
+        case ${1} in
+        -h | --help)
+            printf "%s [OPTIONS] \n" "${BASH_SOURCE[1]}"
+            printf "\t%s\n" "-N [--name]          USER_NAME"
+
+            return 1
+            ;;
+        -N | --name)
+            user_name=${2}
+            shift
+            ;;
+        *)
+            echo "invalid argument, '${1}'"
+            return 1
+            ;;
+        esac
+        shift
+    done
+
+    set -u
 
     mkdir -p /var/run/${user_name}
 
