@@ -8,6 +8,7 @@ set -e
 
 function main() {
     local user_name
+    local run_dir
 
     while (("$#")); do
         case ${1} in
@@ -29,12 +30,17 @@ function main() {
         shift
     done
 
+    run_dir="/var/run/${user_name}"
+
+    printf "[user_name] %s\n" "${user_name}"
+    printf "[run_dir] %s\n" "${run_dir}"
+
     set -u
 
-    mkdir -p /var/run/${user_name}
+    mkdir -p ${run_dir}
 
-    chown -R root:${user_name} /var/run/${user_name}
-    chmod -R u=rwX,g=rwX,o=--- /var/run/${user_name}
+    chown -R root:${user_name} ${run_dir}
+    chmod -R u=rwX,g=rwX,o=--- ${run_dir}
 
     return 0
 }
