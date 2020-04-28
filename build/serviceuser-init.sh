@@ -11,13 +11,13 @@ function main() {
 
     while (("$#")); do
         case ${1} in
-        --help)
-            printf "%s [OPTIONS] \n" "${BASH_SOURCE[1]}"
+        -h | --help)
+            printf "%s [OPTIONS]\n" "${BASH_SOURCE[1]}"
             printf "\t%s\n" "-N [--name]          USER_NAME"
 
             return 1
             ;;
-        --name)
+        -N | --name)
             user_name=${2}
             shift
             ;;
@@ -29,7 +29,7 @@ function main() {
         shift
     done
 
-    # set -u
+    set -u
 
     mkdir -p /var/run/${user_name}
 

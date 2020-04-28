@@ -19,7 +19,7 @@ function main() {
     while (("$#")); do
         printf "FLAG VARS: %s\n" "${1}=${2}"
         case ${1} in
-        --help)
+        -h | --help)
             printf "%s [OPTIONS]\n" "${BASH_SOURCE[1]}"
             printf "\t%s\n" "-N [--name]          USER_NAME"
             printf "\t%s\n" "-H [--home]          HOME_DIR"
@@ -29,23 +29,23 @@ function main() {
 
             return 1
             ;;
-        --name)
+        -N | --name)
             user_name=${2}
             shift
             ;;
-        --home)
+        -H | --home)
             user_home=${2}
             shift
             ;;
-        --uid)
+        -U | --uid)
             user_id=${2}
             shift
             ;;
-        --guid)
+        -G | --guid)
             user_guid=${2}
             shift
             ;;
-        --os)
+        -O | --os)
             container_os=${2}
             shift
             ;;
